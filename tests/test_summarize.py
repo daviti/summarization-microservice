@@ -88,3 +88,11 @@ def test_forbidden_content_is_refused(unsafe_text, expected_policy_code):
     assert data["policy_code"] == expected_policy_code
     assert data["message"] == "refused: policy_violation"
     assert unsafe_text not in data["summary"]
+
+
+def test_policies_endpoint_returns_supported_policies():
+    response = httpx.get(f"{BASE_URL}/policies")
+    assert response.status_code == 200
+    data = response.json()
+    assert "policies" in data
+    assert isinstance(data["policies"], list)
