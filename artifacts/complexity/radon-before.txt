@@ -1,0 +1,12 @@
+app/main.py
+    F 41:0 is_policy_violation - B (7)
+    F 51:0 simple_summarize - B (6)
+    F 74:0 summarize - A (4)
+    F 62:0 health - A (1)
+    F 66:0 policies - A (1)
+    F 70:0 root - A (1)
+    C 8:0 SummarizeRequest - A (1)
+    C 12:0 SummarizeResponse - A (1)
+
+8 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.75)

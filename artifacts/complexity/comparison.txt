@@ -1,0 +1,24 @@
+Complexity comparison: app/main.py refactor
+=============================================
+
+Before:
+- Highest complexity: is_policy_violation - B (7)
+- Average complexity: A (2.75) across 8 blocks
+
+After:
+- Highest complexity: simple_summarize - B (6) (unchanged; not part of this refactor)
+- Average complexity: A (2.0) across 11 blocks
+- detect_policy_violation (formerly is_policy_violation): B (7) -> A (4)
+- summarize: A (4) -> A (2)
+
+Outcome:
+- Tests remained green (10/10 passing before and after).
+- Endpoint responsibilities were separated: policy detection
+  (detect_policy_violation), source_id resolution (resolve_source_id),
+  and response construction (build_refusal_response /
+  build_summary_response) are now standalone, docstringed helpers
+  instead of being inlined in the summarize() endpoint.
+- Policy keyword lists were consolidated into POLICY_KEYWORDS so the
+  detection logic is a single loop instead of repeated if/return blocks.
+- Safety behavior remained unchanged: same keywords, same policy codes,
+  same refusal message, verified by the full pytest suite.

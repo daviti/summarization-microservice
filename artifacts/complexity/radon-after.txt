@@ -1,0 +1,15 @@
+app/main.py
+    F 67:0 simple_summarize - B (6)
+    F 53:0 detect_policy_violation - A (4)
+    F 62:0 resolve_source_id - A (2)
+    F 94:0 build_summary_response - A (2)
+    F 126:0 summarize - A (2)
+    F 82:0 build_refusal_response - A (1)
+    F 108:0 health - A (1)
+    F 114:0 policies - A (1)
+    F 120:0 root - A (1)
+    C 9:0 SummarizeRequest - A (1)
+    C 14:0 SummarizeResponse - A (1)
+
+11 blocks (classes, functions, methods) analyzed.
+Average complexity: A (2.0)
