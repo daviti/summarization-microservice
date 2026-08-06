@@ -17,6 +17,12 @@ class SummarizeResponse(BaseModel):
     policy_code: Optional[str] = None
     message: Optional[str] = None
 
+POLICY_HARM = "safety_harm"
+POLICY_ILLICIT = "safety_illicit"
+POLICY_FINANCIAL = "safety_financial"
+
+SUPPORTED_POLICIES = [POLICY_HARM, POLICY_ILLICIT, POLICY_FINANCIAL]
+
 HARMFUL_KEYWORDS = [
     "kill", "suicide", "bomb", "terrorist", "shoot",
     "harming others", "violent actions",
@@ -35,11 +41,11 @@ FINANCIAL_KEYWORDS = [
 def is_policy_violation(text: str) -> Optional[str]:
     lower = text.lower()
     if any(k in lower for k in HARMFUL_KEYWORDS):
-        return "safety_harm"
+        return POLICY_HARM
     if any(k in lower for k in ILLICIT_KEYWORDS):
-        return "safety_illicit"
+        return POLICY_ILLICIT
     if any(k in lower for k in FINANCIAL_KEYWORDS):
-        return "safety_financial"
+        return POLICY_FINANCIAL
     return None
 
 def simple_summarize(text: str) -> str:
@@ -58,13 +64,7 @@ def health():
 
 @app.get("/policies")
 def policies():
-    return {
-        "policies": [
-            "safety_harm",
-            "safety_illicit",
-            "safety_financial",
-        ]
-    }
+    return {"policies": SUPPORTED_POLICIES}
 
 @app.get("/")
 def root():
