@@ -49,9 +49,15 @@ pytest -v
 
 ## Test cases
 
+Each entry below names the exact `project_inputs/` fixture file the test
+reads (where one is used) and the test function that reads it, so the
+fixture-to-test mapping is traceable without reading the source.
+
 ### Health endpoint
 
 - **Purpose:** confirm the service process is up and responding.
+- **Fixture:** none — no input file needed for a liveness check.
+- **Test:** `test_health_endpoint` in `tests/test_summarize.py`.
 - **Expected result:** `GET /health` returns `200` with `{"status": "ok"}`.
 - **Policy connection:** none; this is a liveness check.
 
@@ -59,46 +65,73 @@ pytest -v
 
 - **Purpose:** confirm a normal, policy-clean document is summarized
   rather than refused.
-- **Input:** the contents of `project_inputs/Long_text.txt`.
+- **Fixture:** `project_inputs/Long_text.txt`, read in full as the
+  request body's `text` field.
+- **Test:** `test_summarize_valid_long_text` in `tests/test_summarize.py`.
 - **Expected result:** `POST /summarize` returns `200` with a non-empty
   `summary` string shorter than the input, and `refused: false`.
 
 ### Response schema
 
 - **Purpose:** lock the response contract so client code can rely on it.
+- **Fixture:** none — uses an inline literal string, since the schema
+  check doesn't depend on any specific fixture content.
+- **Test:** `test_response_shape_schema_fields` in `tests/test_summarize.py`.
 - **Expected result:** the response always contains `summary` (str),
   `word_count` (int, equal to `len(summary.split())`), `source_id` (str,
   echoing the request's `source_id`), `refused` (bool), `policy_code`
   (str or null), and `message` (str or null).
 
-### Harmful-content refusal
+### Harmful / illicit / financial-advice refusal
 
-- **Purpose:** confirm requests describing violence/self-harm/weapons are
-  refused rather than summarized.
-- **Policy code:** `safety_harm`.
+- **Purpose:** confirm requests seeking harmful, illegal, or
+  guaranteed-return-style financial content are refused rather than
+  summarized.
+- **Fixture:** `project_inputs/forbidden_examples.json` — every example
+  under all three top-level categories (`harmful_content`,
+  `illicit_instructions`, `financial_advice`) is used; none are sampled
+  or skipped.
+- **Test:** `test_forbidden_content_is_refused` in
+  `tests/test_summarize.py`, parametrized once per fixture example via
+  `load_forbidden_cases()`.
+- **Policy codes:** `safety_harm`, `safety_illicit`, `safety_financial`
+  respectively (each example's expected code comes from the fixture
+  file itself, not a hard-coded value in the test).
 - **Expected result:** `refused: true`, empty `summary`, `word_count: 0`,
   `message: "refused: policy_violation"`, and the original unsafe text is
   not echoed back in the response.
 
-### Illicit-instruction refusal
+### Policies endpoint
 
-- **Purpose:** confirm requests seeking instructions for illegal activity
-  are refused.
-- **Policy code:** `safety_illicit`.
-- **Expected result:** same refusal contract as above.
+- **Purpose:** confirm the list of supported policy codes is discoverable
+  without reading the source.
+- **Fixture:** none.
+- **Test:** `test_policies_endpoint_returns_supported_policies` in
+  `tests/test_summarize.py`.
+- **Expected result:** `GET /policies` returns `200` with
+  `{"policies": ["safety_harm", "safety_illicit", "safety_financial"]}`.
 
-### Financial-advice refusal
+### Unit test suite (`tests/test_app_unit.py`)
 
-- **Purpose:** confirm requests seeking guaranteed-return / insider-style
-  financial advice are refused.
-- **Policy code:** `safety_financial`.
-- **Expected result:** same refusal contract as above.
+- **Purpose:** exercise `app.main`'s functions and endpoints in-process
+  (via FastAPI's `TestClient`) so mutation testing can actually detect
+  code changes — see "Mutation testing" below for why this file exists
+  separately from `tests/test_summarize.py`.
+- **Fixture:** none from `project_inputs/`. Keyword/category cases are
+  inline literals in the test file itself (one case per entry in
+  `HARMFUL_KEYWORDS`/`ILLICIT_KEYWORDS`/`FINANCIAL_KEYWORDS`), so each
+  individual keyword — not just one example per category — is covered.
 
-All three refusal categories are exercised as a single parametrized test
-(`test_forbidden_content_is_refused` in `tests/test_summarize.py`) driven
-by every example in `project_inputs/forbidden_examples.json`, rather than
-one hard-coded example per category — every case in that file is checked,
-not just a sample.
+### CLI test suite (`tests/test_cli.py`)
+
+- **Purpose:** cover `scripts/run_tests.py`'s argument parsing and
+  failure paths (missing dataset, unreachable service).
+- **Fixture:** none from `project_inputs/` — tests write small throwaway
+  JSON datasets to pytest's `tmp_path` fixture rather than reading the
+  real `forbidden_examples.json`, since the goal is to test the CLI's
+  own logic, not re-validate the dataset. The CLI itself defaults to
+  `project_inputs/forbidden_examples.json` when run normally (see
+  "Automation and CLI usage" below).
 
 ## TDD workflow
 
