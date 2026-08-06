@@ -56,6 +56,16 @@ def simple_summarize(text: str) -> str:
 def health():
     return {"status": "ok"}
 
+@app.get("/policies")
+def policies():
+    return {
+        "policies": [
+            "safety_harm",
+            "safety_illicit",
+            "safety_financial",
+        ]
+    }
+
 @app.get("/")
 def root():
     return {"message": "Summarization microservice is running"}
