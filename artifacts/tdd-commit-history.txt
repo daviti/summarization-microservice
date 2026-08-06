@@ -1,0 +1,10 @@
+d522fce (HEAD -> main) refactor: centralize supported policy definitions
+57c9854 feat: implement policies endpoint
+c3cf923 test: add failing policies endpoint test
+0902994 test: complete pytest suite per project requirements
+d5ed9d5 chore: stop tracking local virtualenv
+97233e4 chore: verify provided summarization tests and local service
+f5e39d2 Add files via upload
+351866c Delete project_inputs/refusal_template.txt
+8278c1f Delete project_inputs/long_text.txt
+cc40dab Delete project_inputs/forbidden_examples.json
