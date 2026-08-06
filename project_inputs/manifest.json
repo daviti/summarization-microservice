@@ -1,9 +1,51 @@
 {
-    "files": {
-        "Long_text.txt": "sha256-longtext-placeholder",
-        "forbidden_examples.json": "sha256-forbidden-placeholder",
-        "refusal_template.json": "sha256-refusal-placeholder"
-    },
+    "files": [
+        {
+            "path": "project_inputs/Long_text.txt",
+            "sha256": "d43cf6bdb5f63868fd4cb48c530f6233ce21664ef05c23d0bd853dc1df7828b0",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/forbidden_examples.json",
+            "sha256": "157228992197a8e06878f64be1e850b03497858d2d6907dbbd7c366ee9c45b65",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/refusal_template.json",
+            "sha256": "184c0e13aa65dc742a5767ab7f3639241c1c6cad0f8115158aa0a0c49f17df74",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/candidate_model_runs.json",
+            "sha256": "50370f54ddee27c75a0e5db282a6372f806b8aa3ae7120a1125fd5d6c27e4b97",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/review_comments.txt",
+            "sha256": "7c5638ab18716c9df0479e4488304b1cc6ae0915abdff4b661db3e3fc37f4fc5",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/complexity_report_before.json",
+            "sha256": "ca44696317d2d0fc08704b93bb03efe08699b4a84e426071e2652f7d30996f40",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/complexity_report_after.json",
+            "sha256": "d2872c9700ca3f40732632342eaced867ad92f22bb4d5ef086856eb1eb225f0d",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/mutation_report_initial.json",
+            "sha256": "21dcbd678574ae9fe12f305c6aefa5692973fd372f5a393080b52fa74a68e8ae",
+            "version": "1.0"
+        },
+        {
+            "path": "project_inputs/mutation_report_final.json",
+            "sha256": "4b563609432f4f3ff7a759a53149b9896758ce49547783a653e09bf8a8c2101d",
+            "version": "1.0"
+        }
+    ],
     "version": "1.0",
     "generated_by": "SME Project"
 }
