@@ -3,5 +3,5 @@ pythonpath = ["."]
 
 [tool.mutmut]
 paths_to_mutate = ["app/"]
-tests_dir = ["tests/"]
+tests_dir = "tests/"
 runner = "python -m pytest -q tests/test_app_unit.py"
