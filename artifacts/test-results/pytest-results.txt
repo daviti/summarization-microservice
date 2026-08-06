@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-7.4.0, pluggy-1.6.0 -- /Users/davidortiz/summarization-microservice/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/davidortiz/summarization-microservice
+plugins: anyio-4.12.1, hydra-core-1.3.5
+collecting ... collected 9 items
+
+tests/test_summarize.py::test_health_endpoint PASSED                     [ 11%]
+tests/test_summarize.py::test_summarize_valid_long_text PASSED           [ 22%]
+tests/test_summarize.py::test_response_shape_schema_fields PASSED        [ 33%]
+tests/test_summarize.py::test_forbidden_content_is_refused[harmful_content-0] PASSED [ 44%]
+tests/test_summarize.py::test_forbidden_content_is_refused[harmful_content-1] PASSED [ 55%]
+tests/test_summarize.py::test_forbidden_content_is_refused[illicit_instructions-0] PASSED [ 66%]
+tests/test_summarize.py::test_forbidden_content_is_refused[illicit_instructions-1] PASSED [ 77%]
+tests/test_summarize.py::test_forbidden_content_is_refused[financial_advice-0] PASSED [ 88%]
+tests/test_summarize.py::test_forbidden_content_is_refused[financial_advice-1] PASSED [100%]
+
+============================== 9 passed in 0.11s ===============================

@@ -19,14 +19,17 @@ class SummarizeResponse(BaseModel):
 
 HARMFUL_KEYWORDS = [
     "kill", "suicide", "bomb", "terrorist", "shoot",
+    "harming others", "violent actions",
 ]
 
 ILLICIT_KEYWORDS = [
     "make drugs", "cook meth", "fake passport", "hack bank",
+    "illegal", "unlawful",
 ]
 
 FINANCIAL_KEYWORDS = [
     "guaranteed profit", "insider trading", "surefire stock", "100% return",
+    "guaranteed investment", "financial decisions without proper guidance",
 ]
 
 def is_policy_violation(text: str) -> Optional[str]:
